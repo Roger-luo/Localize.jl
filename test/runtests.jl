@@ -5,5 +5,4 @@ else
     using Test
 end
 
-# write your own tests here
-@test 1 == 2
+replace!(Base.Math, Docs.@var(sin), Docs.docstr("正弦函数"), Tuple{Number})
