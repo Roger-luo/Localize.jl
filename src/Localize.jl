@@ -20,4 +20,8 @@ export get_multidoc, get_sigs, submodules, path, paths, allpaths, dump_str, repl
 
 include("docsys.jl")
 
+
+export Translation, translate
+include("text.jl")
+
 end # module
