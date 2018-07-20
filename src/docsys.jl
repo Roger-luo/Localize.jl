@@ -44,6 +44,13 @@ end
 
 import Base: replace!
 
+function gotkey(d::IdDict, k)
+    for each in keys(d)
+        k == each && return true
+    end
+    false
+end
+
 """
     replace!(__module__, binding, str, sig)
 
@@ -53,7 +60,7 @@ a new docstring `str` to the docsystem of `__module__` for `binding` and signatu
 function replace!(__module__::Module, b::Binding, str::DocStr, @nospecialize sig = Union{})
     Docs.initmeta(__module__)
     m = get!(Docs.meta(__module__), b, MultiDoc())
-    if !haskey(m.docs, sig)
+    if !gotkey(m.docs, sig)
         @error "Cannot find original docs for `$b :: $sig` in module `$(__module__)`"
     end
 
