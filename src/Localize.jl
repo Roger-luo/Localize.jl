@@ -1,6 +1,6 @@
 module Localize
 
-using Compat
+using Compat, MacroTools
 
 #######################
 #    Language Strings
@@ -20,8 +20,11 @@ export get_multidoc, get_sigs, submodules, path, paths, allpaths, dump_str, repl
 
 include("docsys.jl")
 
-
 export Translation, translate
 include("text.jl")
+
+export @i18n
+
+include("syntax.jl")
 
 end # module
