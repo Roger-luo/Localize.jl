@@ -17,7 +17,7 @@ end
 
 Returns the path of this binding with given signature.
 """
-path(m::MultiDoc, b::Binding, sig) = m.docs[sig].data[:path]
+path(m::MultiDoc, b::Binding, sig) = m.docs[sig].data[:module] => m.docs[sig].data[:path]
 
 """
     paths(multidoc, binding) -> Generator
@@ -110,11 +110,17 @@ function allpaths(__module__::Module)
     PATH
 end
 
+template(mod::Module) = """@i18n $mod begin
+
+# translation goes here
+
+end"""
+
 function init_i18n(__module__::Module, root)
-    for each in allpaths(__module__)
+    for (mod, each) in allpaths(__module__)
         path = joinpath(root, each)
         mkpath(dirname(path))
-        write(path, "")
+        write(path, template(mod)) # use a+ here? or w+ is fine?
     end
     root
 end
