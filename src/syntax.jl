@@ -12,8 +12,10 @@ get_docstr(docstring) = Docs.docstr(last(docstring.args))
 function ati18n(source::LineNumberNode, mod::Module, mex, def)
     def.head !== :block && error("Expect @i8n mod begin ... end")
     total = length(def.args)
-
     i18nex = Expr(:block)
+
+    total <= 1 && return i18nex
+
     for i in 1:4:total
         nline_str, docstring, nline_binding, binding_ex = def.args[i], def.args[i+1], def.args[i+2], def.args[i+3]
 

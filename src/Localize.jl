@@ -16,9 +16,10 @@ include("strings.jl")
 ########################
 #     Doc System Utils
 
-export get_multidoc, get_sigs, submodules, path, paths, allpaths, dump_str, replace!, init_i18n
+export get_multidoc, get_sigs, submodules, path, paths, allpaths, dump_str, replace!, generate
 
 include("docsys.jl")
+include("generated.jl")
 
 export Translation, translate
 include("text.jl")
