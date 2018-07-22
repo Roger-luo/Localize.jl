@@ -12,36 +12,6 @@ function submodules(__module__::Module)
     collect(itr)
 end
 
-"""
-    path(multidoc, binding, sig) -> String
-
-Returns the path of this binding with given signature.
-"""
-path(m::MultiDoc, b::Binding, sig) = m.docs[sig].data[:path]
-
-"""
-    paths(multidoc, binding) -> Generator
-
-Returns an iterator of path of the documents of this binding.
-"""
-paths(m::MultiDoc, b::Binding) = (path(m, b, sig) for sig in m.order)
-
-"""
-    paths(module) -> Set
-
-Returns an `Set` object that contains the unique relative path of doc strings.
-"""
-function paths(__module__::Module)
-    META = Docs.meta(__module__)
-    PATH = Set()
-    for (b, m) in META
-        for each in paths(m, b)
-            push!(PATH, each)
-        end
-    end
-    PATH
-end
-
 import Base: replace!
 
 function gotkey(d::IdDict, k)
@@ -76,47 +46,3 @@ function replace!(__module__::Module, b::Binding, str::DocStr, @nospecialize sig
     str.data[:typesig] = sig
     return b
 end
-
-"""
-    dump_str(binding[, sig]) -> String
-
-dump a `binding` and a signature `sig` to raw script.
-"""
-function dump_str end
-
-dump_str(b::Binding) = "$(b.var)"
-
-function dump_str(b::Binding, sig)
-    if sig === Union{}
-        "$(b.var)"
-    else
-        "$(b.var) $sig"
-    end
-end
-
-function dump_str(b::Binding, sig::Type{<:Tuple})
-    o = "$(b.var)"
-
-    args = join(["::$each" for each in sig.types], ", ")
-    !isempty(args) && return o * "(" * args * ")"
-    o
-end
-
-function allpaths(__module__::Module)
-    PATH = paths(__module__)
-    for each in submodules(__module__)
-        union!(PATH, allpaths(each))
-    end
-    PATH
-end
-
-function init_i18n(__module__::Module, root)
-    for each in allpaths(__module__)
-        path = joinpath(root, each)
-        mkpath(dirname(path))
-        write(path, "")
-    end
-    root
-end
-
-init_i18n(root) = init_i18n(Base, root)
