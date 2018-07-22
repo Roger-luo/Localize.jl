@@ -1,0 +1,8 @@
+authors = [""]
+name = "Localize"
+uuid = "3622a906-8cab-11e8-0ab3-4ff9d8f00fb9"
+version = "0.1.0"
+
+[deps]
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
+MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
