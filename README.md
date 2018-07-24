@@ -1,5 +1,7 @@
 # Localize.jl
 
+[![Build Status](https://travis-ci.org/Roger-luo/Localize.jl.svg?branch=master)](https://travis-ci.org/Roger-luo/Localize.jl)
+
 Utils for Julia Localization.
 
 This package is not registered, and is only available for v0.7+.
